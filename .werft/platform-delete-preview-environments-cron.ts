@@ -82,6 +82,9 @@ class HarvesterPreviewEnvironment {
     isInactive(): boolean {
         // We'll port over the logic from CoreDevPreviewEnvironment later, for now we consider
         // Harvester preview environments to never be stale due to inactivity.
+        const sliceID = SLICES.CHECKING_DB_ACTIVITY(this.namespace)
+        werft.log(sliceID, `Is inactive: false - Harvester based `)
+        werft.done(sliceID)
         return false
     }
 
@@ -283,7 +286,7 @@ async function deletePreviewEnvironments() {
         return previewNamespaceBasedOnStaleBranches.has(preview.namespace)
     })
 
-    const deleteDueToNoDBActivity = previews.filter(preview => {
+    const deleteDueToNoDBActivity = previews.filter((preview: PreviewEnvironment) => {
         werft.log(SLICES.DETERMINING_STALE_PREVIEW_ENVIRONMENTS, `Considering ${preview.name} (${preview.namespace}) stale due to no recent DB activity`)
         return preview.isInactive()
     })
