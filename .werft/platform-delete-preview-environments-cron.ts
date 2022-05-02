@@ -273,10 +273,22 @@ async function deletePreviewEnvironments() {
             HarvesterPreviewEnvironment.expectedNamespaceFromBranch(branch)
         ]))
 
-    const deleteDueToMissingBranch     = previews.filter(preview => !previewNamespaceBasedOnBranches.has(preview.namespace))
-    const deleteDueToNoCommitActivity  = previews.filter(preview => previewNamespaceBasedOnStaleBranches.has(preview.namespace))
-    const deleteDueToNoDBActivity      = previews.filter(preview => preview.isInactive())
-    const previewsToDelete             = new Set([...deleteDueToMissingBranch, ...deleteDueToNoCommitActivity, ...deleteDueToNoDBActivity])
+    const deleteDueToMissingBranch = previews.filter(preview => {
+        werft.log(SLICES.DETERMINING_STALE_PREVIEW_ENVIRONMENTS, `Considering ${preview.name} (${preview.namespace}) stale due to missing branch`)
+        return !previewNamespaceBasedOnBranches.has(preview.namespace)
+    })
+
+    const deleteDueToNoCommitActivity = previews.filter(preview => {
+        werft.log(SLICES.DETERMINING_STALE_PREVIEW_ENVIRONMENTS, `Considering ${preview.name} (${preview.namespace}) stale due to no recent commit activity`)
+        return previewNamespaceBasedOnStaleBranches.has(preview.namespace)
+    })
+
+    const deleteDueToNoDBActivity = previews.filter(preview => {
+        werft.log(SLICES.DETERMINING_STALE_PREVIEW_ENVIRONMENTS, `Considering ${preview.name} (${preview.namespace}) stale due to no recent DB activity`)
+        return preview.isInactive()
+    })
+
+    const previewsToDelete = new Set([...deleteDueToMissingBranch, ...deleteDueToNoCommitActivity, ...deleteDueToNoDBActivity])
 
     if (previewsToDelete.size == 0) {
         werft.log(SLICES.DETERMINING_STALE_PREVIEW_ENVIRONMENTS, "No stale preview environments.")
