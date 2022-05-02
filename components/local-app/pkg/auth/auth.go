@@ -84,6 +84,8 @@ func GetToken(host string) (token string, err error) {
 	if errors.Is(err, keyring.ErrNotFound) {
 		return "", nil
 	}
+
+	fmt.Println("token", tkn)
 	return tkn, err
 }
 
