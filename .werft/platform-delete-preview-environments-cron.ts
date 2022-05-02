@@ -14,6 +14,7 @@ const DRY_RUN = false
 
 const SLICES = {
     CONFIGURE_ACCESS: "Configuring access to relevant resources",
+    INSTALL_HARVESTER_KUBECONFIG: "Install Harvester kubeconfig",
     FETCHING_PREVIEW_ENVIRONMENTS: "Fetching preview environments",
     FETCHING_BRANCHES: "Fetching branches",
     DETERMINING_STALE_PREVIEW_ENVIRONMENTS: "Determining stale preview environments",
@@ -222,6 +223,14 @@ async function deletePreviewEnvironments() {
         werft.fail(SLICES.CONFIGURE_ACCESS, err)
     }
 
+    werft.phase("Install Harvester kubeconfig");
+    try {
+        exec(`cp /mnt/secrets/harvester-kubeconfig/harvester-kubeconfig.yml ${HARVESTER_KUBECONFIG_PATH}`, { slice: SLICES.INSTALL_HARVESTER_KUBECONFIG })
+        werft.done(SLICES.INSTALL_HARVESTER_KUBECONFIG)
+    } catch (err) {
+        werft.fail(SLICES.INSTALL_HARVESTER_KUBECONFIG, err)
+    }
+
     werft.phase("Fetching preview environments");
     let previews: PreviewEnvironment[]
     try {
@@ -315,18 +324,8 @@ async function removeCertificate(preview: string, kubectlConfig: string, slice: 
 }
 
 async function cleanLoadbalancer() {
-    const prepPhase = "prep clean loadbalancers"
     const fetchPhase = "fetching unuse loadbalancer"
     const deletionPhase = "deleting unused load balancers"
-
-    werft.phase(prepPhase);
-    try {
-        exec(`cp /mnt/secrets/harvester-kubeconfig/harvester-kubeconfig.yml ${HARVESTER_KUBECONFIG_PATH}`)
-    } catch (err) {
-        werft.fail(prepPhase, err)
-    }
-    werft.done(prepPhase)
-
 
     werft.phase(fetchPhase);
     let lbsToDelete: string[]
