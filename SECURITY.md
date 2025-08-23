@@ -1,5 +1,1 @@
-# Reporting Security Issues
-
-We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.
-
-To report a security issue please visit https://www.gitpod.io/security
+# Security Policy\n\nPlease open an issue or contact security@ionutale for security reports.\n
