@@ -1,6 +1,6 @@
 module github.com/gitpod-io/gitpod/registry-facade
 
-go 1.18
+go 1.24
 
 require (
 	github.com/containerd/containerd v1.6.2
@@ -72,7 +72,7 @@ require (
 	github.com/ipld/go-ipld-prime v0.11.0 // indirect
 	github.com/jbenet/goprocess v0.1.4 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.11.13 // indirect
+	github.com/klauspost/compress v1.18.7 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.6 // indirect
 	github.com/libp2p/go-buffer-pool v0.0.2 // indirect
 	github.com/libp2p/go-libp2p-core v0.8.6 // indirect
