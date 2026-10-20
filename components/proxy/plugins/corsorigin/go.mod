@@ -1,6 +1,6 @@
 module github.com/gitpod-io/gitpod/proxy/plugins/corsorigin
 
-go 1.18
+go 1.24
 
 require (
 	github.com/caddyserver/caddy/v2 v2.5.0
@@ -46,7 +46,7 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/pgtype v1.9.0 // indirect
 	github.com/jackc/pgx/v4 v4.14.0 // indirect
-	github.com/klauspost/compress v1.15.0 // indirect
+	github.com/klauspost/compress v1.18.7 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.11 // indirect
 	github.com/libdns/libdns v0.2.1 // indirect
 	github.com/lucas-clemente/quic-go v0.26.0 // indirect
